@@ -6,6 +6,15 @@ public class Message {
     private String latitude;
     private String longitude;
 
+    public Message(int id, String message, int userid, long date, String latitude, String longitude) {
+        this.id = id;
+        this.message = message;
+        this.userid = userid;
+        this.date = date;
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
     public int getId() {
         return id;
     }

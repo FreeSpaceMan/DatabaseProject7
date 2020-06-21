@@ -29,25 +29,27 @@ public class Database {
                 String name = resultSet.getString("name");
                 String surname = resultSet.getString("surname");
                 String email = resultSet.getString("email");
+                String username = resultSet.getString("username");
                 String password = resultSet.getString("password");
                 System.out.println("ID: " + id + ", Name: " + name
-                        + ", Surname: " + surname + ", Email: " + email+ ", Password: " + password);
+                        + ", Surname: " + surname + ", Email: " + email+ ", Username: " + username+", Password: " + password);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public void insertUser(String name, String surname, String email,String password) {
-        String query = "INSERT INTO usersdbp7 (name, surname, email, password)"
-                + " VALUES (?, ?, ?, ?)";
+    public void insertUser(String name, String surname, String email, String username,String password) {
+        String query = "INSERT INTO usersdbp7 (name, surname, email, username, password)"
+                + " VALUES (?, ?, ?, ?, ?)";
 
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, name);
             statement.setString(2, surname);
             statement.setString(3, email);
-            statement.setString(4, password);
+            statement.setString(4, username);
+            statement.setString(5, password);
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -81,12 +83,12 @@ public class Database {
         }
     }
 
-    public User login(String userid, String password) {
-        String query = "SELECT * FROM usersdbp7 WHERE userid=? AND password=?";
+    public User userLogin(String username, String password) {
+        String query = "SELECT * FROM usersdbp7 WHERE username=? AND password=?";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)
         ) {
-            statement.setString(1,userid);
+            statement.setString(1,username);
             statement.setString(2,password);
             ResultSet resultSet = statement.executeQuery();
 
@@ -96,6 +98,7 @@ public class Database {
                 user.setName(resultSet.getString("name"));
                 user.setSurname(resultSet.getString("surname"));
                 user.setEmail(resultSet.getString("email"));
+                user.setUsername(resultSet.getString("username"));
                 user.setPassword(resultSet.getString("password"));
                 return user;
             }
@@ -105,7 +108,17 @@ public class Database {
         return null;
     }
 
-
+    public void deleteUserByEmail(String email) {
+        String query = "DELETE FROM usersdbp7 WHERE email=?";
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, email);
+            int numberOfAffectedRows = statement.executeUpdate();
+            System.out.println("Number of affected rows: " + numberOfAffectedRows);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
 
 
