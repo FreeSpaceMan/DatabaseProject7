@@ -42,6 +42,44 @@ public class Main {
             }
         });
 
+        //register spark code. Currently in testing stage
+        Spark.post("/register", (request, response) -> {
+
+            String name = request.queryParams("name");
+            String surname = request.queryParams("surname");
+            String email = request.queryParams("email");
+            String username = request.queryParams("username");
+            String password = request.queryParams("password");
+//            User user = new User();
+//            Zinutes zinutes = new Zinutes(-1,zinutesTekstas,-1,userId);
+            db.insertUser(
+                    ""+name,
+                    ""+surname,
+                    ""+email,
+                    ""+username,
+                    ""+password);
+            System.out.println("Added user with Name :"+ name+", Username: "+ username+", Password: "+password);
+            return "Success";
+
+        });
+
+        //Inserting message backend code
+        Spark.post("/messageIn", (request, response) -> {
+            String message = request.queryParams("message");
+            int userId = Integer.parseInt(request.queryParams("userId"));
+            String username = request.queryParams("username");
+            double latitude = Double.valueOf(request.queryParams("latitude"));
+            double longitude = Double.valueOf(request.queryParams("longitude"));
+            Message messageObj = new Message(-1,message,userId,username,-1,latitude,longitude);
+            db.insertMessage(messageObj);
+            System.out.println("New message data, Username:"
+                    +messageObj.getUsername()
+                    + ", Message:"
+                    + messageObj.getMessage()+", latitude: "+messageObj.getLatitude()
+                    +", longitude: "+messageObj.getLongitude());
+            return "Success";
+        });
+
 
     }
     /**

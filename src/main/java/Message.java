@@ -2,14 +2,16 @@ public class Message {
     private int id;
     private String message;
     private int userid;
+    private String username;
     private long date;
-    private String latitude;
-    private String longitude;
+    private double latitude;
+    private double longitude;
 
-    public Message(int id, String message, int userid, long date, String latitude, String longitude) {
+    public Message(int id, String message, int userid, String username, long date, double latitude, double longitude) {
         this.id = id;
         this.message = message;
         this.userid = userid;
+        this.username = username;
         this.date = date;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -39,6 +41,14 @@ public class Message {
         this.userid = userid;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public long getDate() {
         return date;
     }
@@ -47,19 +57,21 @@ public class Message {
         this.date = date;
     }
 
-    public String getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(String latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
-    public String getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(String longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 }
+
+

@@ -69,14 +69,15 @@ public class Database {
     }
 
     public void insertMessage(Message message) {
-        String query = "INSERT INTO messagesdbp7 (message, userid, date, latitude, longitude) VALUES (?, ?, ?, ?, ?)";
+        String query = "INSERT INTO messagesdbp7 (message, userid, username, date, latitude, longitude)"+ " VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, message.getMessage());
             statement.setInt(2,message.getUserid());
-            statement.setLong(3, System.currentTimeMillis());
-            statement.setString(4, message.getLatitude());
-            statement.setString(5, message.getLongitude());
+            statement.setString(3,message.getUsername());
+            statement.setLong(4, System.currentTimeMillis());
+            statement.setDouble(5, message.getLatitude());
+            statement.setDouble(6, message.getLongitude());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
