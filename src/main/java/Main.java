@@ -18,6 +18,8 @@ public class Main {
 
         Spark.get("/home", (request, response) -> getTextFromFile("Home.html"));
 
+        Spark.get("/getMessages", (request,response) -> db.getMessages());
+
 
         // login spark code
         Spark.post("/login", (request, response) -> {

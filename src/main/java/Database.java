@@ -1,4 +1,6 @@
 import org.apache.commons.dbcp.BasicDataSource;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -82,6 +84,29 @@ public class Database {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public JSONArray getMessages() {
+      String query = "SELECT * FROM messagesdbp7";
+      JSONArray jsonArray = new JSONArray();
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query);
+             ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()) {
+                JSONObject json = new JSONObject();
+                json.put("message",resultSet.getString("message"));
+                json.put("userid",resultSet.getInt("userid"));
+                json.put("username",resultSet.getString("username"));
+                json.put("latitude",resultSet.getDouble("latitude"));
+                json.put("longitude",resultSet.getDouble("longitude"));
+//                json.put("data",resultSet.getLong("data"));
+//                json.put("userId",resultSet.getInt("user_id"));
+                jsonArray.put(json);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return jsonArray;
     }
 
     public User userLogin(String username, String password) {
